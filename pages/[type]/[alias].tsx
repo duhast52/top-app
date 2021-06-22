@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
+import React from 'react';
 import { withLayout } from '../../layout/Layout';
 import axios from 'axios';
 import { MenuItem } from '../../interfaces/menu.interface';
@@ -6,14 +7,19 @@ import {
   TopLevelCategory,
   TopPageModel,
 } from '../../interfaces/page.interface';
-import { ParsedUrlQuery } from 'querystring';
 import { ProductModel } from '../../interfaces/product.interface';
 import { firstLevelMenu } from '../../helpers/helpers';
 import { TopPageComponent } from '../../page-components';
-import Head from 'next/head';
 import { API } from '../../helpers/api';
+import Head from 'next/head';
+import { Error404 } from '../404';
+import { ParsedUrlQuery } from 'querystring';
 
 function TopPage({ firstCategory, page, products }: TopPageProps): JSX.Element {
+  if (!page || !products) {
+    return <Error404 />;
+  }
+
   return (
     <>
       <Head>
@@ -78,8 +84,12 @@ export const getStaticProps: GetStaticProps<TopPageProps> = async ({
     );
     const { data: products } = await axios.post<ProductModel[]>(
       API.product.find,
-      { category: page.category, limit: 10 }
+      {
+        category: page.category,
+        limit: 10,
+      }
     );
+
     return {
       props: {
         menu,
@@ -88,7 +98,7 @@ export const getStaticProps: GetStaticProps<TopPageProps> = async ({
         products,
       },
     };
-  } catch (e) {
+  } catch {
     return {
       notFound: true,
     };

@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "prepare": "husky install",
-		"dev": "next dev",
-		"export": "next export",
-		"debug": "NODE_OPTIONS='--inspect' next dev",
-		"build": "next build",
-		"start": "next start",
-		"stylelint": "stylelint \"**/*.css\" --fix"
+    "dev": "next dev",
+    "export": "next export",
+    "debug": "NODE_OPTIONS='--inspect' next dev",
+    "build": "next build",
+    "start": "next start",
+    "stylelint": "stylelint \"**/*.css\" --fix"
   },
   "dependencies": {
     "axios": "^0.21.1",
